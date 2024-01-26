@@ -109,6 +109,11 @@ import {{javaxPackage}}.annotation.Generated;
 <%={{ }}=%>
 {{/useRequestMappingOnInterface}}
 public interface {{classname}} {
+
+{{#operation}}
+    public static String {{operationIdSnakeCase.toUpperCase}}_URL = "{{{path}}}";
+{{/operation}}
+
 {{#jdk8-default-interface}}
     {{^isDelegate}}
         {{^reactive}}
@@ -232,7 +237,7 @@ public interface {{classname}} {
     {{/implicitHeadersParams.0}}
     @RequestMapping(
         method = RequestMethod.{{httpMethod}},
-        value = "{{{path}}}"{{#singleContentTypes}}{{#hasProduces}},
+        value = {{operationIdSnakeCase.toUpperCase}}_URL{{#singleContentTypes}}{{#hasProduces}},
         produces = "{{{vendorExtensions.x-accepts}}}"{{/hasProduces}}{{#hasConsumes}},
         consumes = "{{{vendorExtensions.x-content-type}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
         produces = { {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }{{/hasProduces}}{{#hasConsumes}},
